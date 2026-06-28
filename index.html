@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Msk | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:       #0a0a0f;
+      --surface:  #12121a;
+      --border:   #1e1e2e;
+      --accent:   #7c6af7;
+      --accent2:  #3ecfcf;
+      --text:     #e8e8f0;
+      --muted:    #6b6b85;
+      --tag-bg:   #1a1a2e;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ── GRID NOISE TEXTURE ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(124,106,247,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,106,247,.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 3rem;
+      background: rgba(10,10,15,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Space Mono', monospace;
+      font-size: .9rem;
+      color: var(--accent);
+      letter-spacing: .1em;
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .85rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 3rem 5rem;
+      max-width: 900px;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: .78rem;
+      color: var(--accent2);
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 540px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .7rem 1.5rem;
+      border-radius: 6px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all .2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: #6a59e0; transform: translateY(-1px); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── SECTIONS ── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 5rem 3rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: .72rem;
+      color: var(--accent);
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin-bottom: 2.5rem;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0 3rem;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .about-text p { color: var(--muted); margin-bottom: 1rem; }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.4rem;
+    }
+
+    .stat-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: .3rem;
+    }
+
+    .stat-label { font-size: .8rem; color: var(--muted); }
+
+    /* ── SKILLS ── */
+    .skills-groups { display: flex; flex-direction: column; gap: 2rem; }
+
+    .skill-group-title {
+      font-family: 'Space Mono', monospace;
+      font-size: .75rem;
+      color: var(--muted);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      margin-bottom: .8rem;
+    }
+
+    .tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+    .tag {
+      display: inline-block;
+      padding: .35rem .9rem;
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: .8rem;
+      color: var(--text);
+      font-family: 'Space Mono', monospace;
+    }
+
+    .tag.accent { border-color: var(--accent); color: var(--accent); }
+    .tag.accent2 { border-color: var(--accent2); color: var(--accent2); }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.8rem;
+      transition: border-color .2s, transform .2s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: .8rem;
+    }
+
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .project-icon {
+      font-size: 1.8rem;
+      margin-bottom: .3rem;
+    }
+
+    .project-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .project-card p {
+      font-size: .85rem;
+      color: var(--muted);
+      flex: 1;
+    }
+
+    .project-tech { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .5rem; }
+
+    .tech-pill {
+      font-family: 'Space Mono', monospace;
+      font-size: .7rem;
+      padding: .2rem .6rem;
+      background: var(--tag-bg);
+      border-radius: 3px;
+      color: var(--accent2);
+    }
+
+    /* ── EXPERIENCE ── */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 140px 1px 1fr;
+      gap: 0 2rem;
+      padding-bottom: 2.5rem;
+    }
+
+    .timeline-date {
+      font-family: 'Space Mono', monospace;
+      font-size: .78rem;
+      color: var(--muted);
+      padding-top: .15rem;
+      text-align: right;
+    }
+
+    .timeline-line {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    .timeline-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      margin-top: .2rem;
+    }
+
+    .timeline-connector {
+      width: 1px;
+      flex: 1;
+      background: var(--border);
+      margin-top: 4px;
+    }
+
+    .timeline-content h3 { font-size: 1rem; font-weight: 600; margin-bottom: .2rem; }
+    .timeline-content .company { color: var(--accent); font-size: .85rem; margin-bottom: .6rem; }
+    .timeline-content p { color: var(--muted); font-size: .85rem; }
+
+    /* ── CONTACT ── */
+    .contact-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 3rem;
+      text-align: center;
+    }
+
+    .contact-box p { color: var(--muted); margin-bottom: 2rem; }
+
+    .email-display {
+      font-family: 'Space Mono', monospace;
+      font-size: .95rem;
+      color: var(--accent2);
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .8rem 1.5rem;
+      display: inline-block;
+      margin-bottom: 2rem;
+      word-break: break-all;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem 3rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .8rem;
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 680px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero, section { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .divider { margin: 0 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .timeline-item { grid-template-columns: 90px 1px 1fr; gap: 0 1rem; }
+      .contact-box { padding: 2rem 1.5rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <span class="nav-logo">msk.dev</span>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="hero-eyebrow">Computer Engineering · Cybersecurity · Data Science</p>
+    <h1>Building systems<br>that <span>scale</span> &amp; <span>secure</span></h1>
+    <p class="hero-sub">
+      Software engineer at the intersection of systems programming, ethical hacking, and data-driven products. Studying CE at PICT Pune &amp; B.Sc. Data Science at IIT Madras.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label">About</p>
+    <h2>Who I am</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm a Computer Engineering student at PICT Pune with a dual pursuit — a B.Sc. in Data Science &amp; Programming from IIT Madras. I care deeply about building robust, secure, and scalable software.</p>
+        <p>My current focus is on ethical hacking and penetration testing — working toward eJPT and OSCP certifications while sharpening skills in networking, Linux, and exploit development.</p>
+        <p>Previously interned at Mastercard as an SDE, where I shipped production code on globally scaled systems.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Degrees in parallel</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">SDE</div>
+          <div class="stat-label">Mastercard intern</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">OSCP</div>
+          <div class="stat-label">Target certification</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Coffee consumed</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <p class="section-label">Skills</p>
+    <h2>What I work with</h2>
+    <div class="skills-groups">
+      <div>
+        <p class="skill-group-title">Languages</p>
+        <div class="tags">
+          <span class="tag accent">Python</span>
+          <span class="tag accent">C / C++</span>
+          <span class="tag accent">JavaScript</span>
+          <span class="tag accent">SQL</span>
+          <span class="tag accent">Bash</span>
+          <span class="tag">Java</span>
+          <span class="tag">LaTeX</span>
+        </div>
+      </div>
+      <div>
+        <p class="skill-group-title">Security & Systems</p>
+        <div class="tags">
+          <span class="tag accent2">Nmap</span>
+          <span class="tag accent2">Metasploit</span>
+          <span class="tag accent2">Burp Suite</span>
+          <span class="tag accent2">Wireshark</span>
+          <span class="tag accent2">Linux</span>
+          <span class="tag accent2">OWASP Top 10</span>
+          <span class="tag">Active Directory</span>
+          <span class="tag">Networking</span>
+        </div>
+      </div>
+      <div>
+        <p class="skill-group-title">Data & Engineering</p>
+        <div class="tags">
+          <span class="tag">Pandas</span>
+          <span class="tag">NumPy</span>
+          <span class="tag">scikit-learn</span>
+          <span class="tag">Git</span>
+          <span class="tag">Docker</span>
+          <span class="tag">REST APIs</span>
+          <span class="tag">Chart.js</span>
+          <span class="tag">React</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label">Projects</p>
+    <h2>Things I've built</h2>
+    <div class="projects-grid">
+
+      <a href="#" class="project-card">
+        <div class="project-icon">🛡️</div>
+        <h3>Pentest Lab Setup</h3>
+        <p>Personal home lab with VMs, vulnerable targets (Metasploitable, DVWA), and custom attack/defence workflows.</p>
+        <div class="project-tech">
+          <span class="tech-pill">Kali Linux</span>
+          <span class="tech-pill">Metasploit</span>
+          <span class="tech-pill">Nmap</span>
+        </div>
+      </a>
+
+      <a href="#" class="project-card">
+        <div class="project-icon">📊</div>
+        <h3>Property Data Analysis</h3>
+        <p>End-to-end EDA pipeline on a real-estate dataset — feature engineering, outlier detection, and predictive modelling.</p>
+        <div class="project-tech">
+          <span class="tech-pill">Python</span>
+          <span class="tech-pill">Pandas</span>
+          <span class="tech-pill">scikit-learn</span>
+        </div>
+      </a>
+
+      <a href="#" class="project-card">
+        <div class="project-icon">🎨</div>
+        <h3>Father's Day Website</h3>
+        <p>Heartfelt personalised site with Marathi-language question cards, Memory Timeline, and Dad Stats trading card.</p>
+        <div class="project-tech">
+          <span class="tech-pill">Lovable AI</span>
+          <span class="tech-pill">React</span>
+          <span class="tech-pill">Tailwind</span>
+        </div>
+      </a>
+
+      <a href="#" class="project-card">
+        <div class="project-icon">📈</div>
+        <h3>Deceptive Viz Detector</h3>
+        <p>Chart.js tool that flags misleading axis scales and calculates distortion ratios to surface visual deception.</p>
+        <div class="project-tech">
+          <span class="tech-pill">Chart.js</span>
+          <span class="tech-pill">JavaScript</span>
+          <span class="tech-pill">HTML/CSS</span>
+        </div>
+      </a>
+
+      <a href="#" class="project-card">
+        <div class="project-icon">🔐</div>
+        <h3>CTF Writeups</h3>
+        <p>Documented solutions for TryHackMe and HackTheBox rooms — covering web, crypto, forensics, and privilege escalation.</p>
+        <div class="project-tech">
+          <span class="tech-pill">TryHackMe</span>
+          <span class="tech-pill">HTB</span>
+          <span class="tech-pill">Python</span>
+        </div>
+      </a>
+
+      <a href="#" class="project-card">
+        <div class="project-icon">💳</div>
+        <h3>Mastercard SDE Internship</h3>
+        <p>Shipped production features on globally scaled financial infrastructure during internship at Mastercard.</p>
+        <div class="project-tech">
+          <span class="tech-pill">Java</span>
+          <span class="tech-pill">REST</span>
+          <span class="tech-pill">CI/CD</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <p class="section-label">Experience</p>
+    <h2>Where I've been</h2>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-date">2024 – Present</div>
+        <div class="timeline-line">
+          <div class="timeline-dot"></div>
+          <div class="timeline-connector"></div>
+        </div>
+        <div class="timeline-content">
+          <h3>B.Sc. Data Science &amp; Programming</h3>
+          <div class="company">IIT Madras · Online</div>
+          <p>Coursework spanning data analysis, machine learning, statistics, and programming — pursued in parallel with CE degree.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">2023</div>
+        <div class="timeline-line">
+          <div class="timeline-dot"></div>
+          <div class="timeline-connector"></div>
+        </div>
+        <div class="timeline-content">
+          <h3>Software Development Engineer Intern</h3>
+          <div class="company">Mastercard</div>
+          <p>Built and deployed production features on globally scaled payment infrastructure. Collaborated with senior engineers on architecture and code review.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">2021 – Present</div>
+        <div class="timeline-line">
+          <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-content">
+          <h3>B.E. Computer Engineering</h3>
+          <div class="company">PICT, Pune</div>
+          <p>Strong academic record. Focus areas: systems programming, networking, algorithms, and security fundamentals.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="section-label">Contact</p>
+    <h2>Let's connect</h2>
+    <div class="contact-box">
+      <p>I'm open to internships, research collaborations, and CTF team-ups. Drop me a line.</p>
+      <div class="email-display">
+        <!--email_off-->23f3001020@ds.study.iitm.ac.in<!--/email_off-->
+      </div>
+      <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;">
+        <a href="mailto:23f3001020@ds.study.iitm.ac.in" class="btn btn-primary">Send Email</a>
+        <a href="https://github.com" class="btn btn-ghost">GitHub</a>
+        <a href="https://linkedin.com" class="btn btn-ghost">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 · Built with intention, not a template.</p>
+  </footer>
+
+</body>
+</html>
